@@ -1,0 +1,31 @@
+name: network-test
+base: core20
+version: '0.1'
+summary: Test of network / desktop / other plugs
+description: |
+  Used to test AppArmor network confinement in response to email with
+  Message-ID: <2146c3c4-818f-1bb8-1940-2866e815d6bd@seznam.cz> Note:
+  desktop/x11/wayland plugs are red-herrings. network and network-bind are then
+  culprits here.
+
+grade: stable
+confinement: strict
+
+apps:
+  network-test:
+    command: usr/bin/network-test
+    plugs:
+      - network
+      - network-bind
+      - desktop
+      - x11
+      - wayland
+
+parts:
+  network-test:
+    # See 'snapcraft plugins'
+    plugin: make
+    source: .
+    make-parameters:
+      - DESTDIR=$SNAPCRAFT_PART_INSTALL
+
